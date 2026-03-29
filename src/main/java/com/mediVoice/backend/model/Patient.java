@@ -50,6 +50,17 @@ public class Patient {
     @Column(length = 1000)
     private String medicalHistory;
 
+    @Column(name = "assigned_doctor_id")
+    private Long assignedDoctorId;
+
+    @Size(max = 150)
+    @Column(name = "assigned_doctor_name", length = 150)
+    private String assignedDoctorName;
+
+    @Size(max = 100)
+    @Column(name = "assigned_doctor_specialization", length = 100)
+    private String assignedDoctorSpecialization;
+
     @Size(max = 500)
     @Column(length = 500)
     private String address;
@@ -101,6 +112,15 @@ public class Patient {
 
     public String getMedicalHistory() { return medicalHistory; }
     public void setMedicalHistory(String medicalHistory) { this.medicalHistory = medicalHistory; }
+
+    public Long getAssignedDoctorId() { return assignedDoctorId; }
+    public void setAssignedDoctorId(Long assignedDoctorId) { this.assignedDoctorId = assignedDoctorId; }
+
+    public String getAssignedDoctorName() { return assignedDoctorName; }
+    public void setAssignedDoctorName(String assignedDoctorName) { this.assignedDoctorName = assignedDoctorName; }
+
+    public String getAssignedDoctorSpecialization() { return assignedDoctorSpecialization; }
+    public void setAssignedDoctorSpecialization(String assignedDoctorSpecialization) { this.assignedDoctorSpecialization = assignedDoctorSpecialization; }
 
     public User getCreatedBy() { return createdBy; }
     public void setCreatedBy(User createdBy) { this.createdBy = createdBy; }

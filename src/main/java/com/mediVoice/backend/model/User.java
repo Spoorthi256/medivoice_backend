@@ -31,14 +31,22 @@ public class User {
     @Column(nullable = false, length = 20)
     private String role;
 
+    @Column(name = "specialization", length = 100)
+    private String specialization;
+
     public User() {
     }
 
-    public User(String username, String email, String password, String role) {
+    public User(String username, String email, String password, String role, String specialization) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.specialization = specialization;
+    }
+
+    public User(String username, String email, String password, String role) {
+        this(username, email, password, role, null);
     }
 
     public Long getId() {
@@ -79,5 +87,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
     }
 }

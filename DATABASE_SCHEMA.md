@@ -67,13 +67,23 @@
 | dosage         | VARCHAR(100) | NOT NULL          |
 | instructions   | VARCHAR(500) |                   |
 
-### medical_history
+### query_history
 | Column          | Type         | Constraints        |
 |-----------------|--------------|--------------------|
 | id              | BIGINT       | PK, AUTO_INCREMENT |
-| patient_id      | BIGINT       | FK -> patients(id), NOT NULL |
-| diagnosis       | VARCHAR(300) | NOT NULL          |
-| diagnosis_date  | DATE         | NOT NULL           |
-| notes           | TEXT         |                    |
-| prescription_id | BIGINT       | FK -> prescriptions(id)      |
+| user_id         | BIGINT       | FK -> users(id), NOT NULL |
+| patient_id      | BIGINT       | FK -> patients(id) |
+| query_type      | VARCHAR(50)  | NOT NULL (symptom_analysis, general_query) |
+| query_text      | TEXT         | NOT NULL          |
+| response_text   | TEXT         | NOT NULL          |
+| severity_level  | VARCHAR(20)  | (low, medium, high, emergency) |
 | created_at      | TIMESTAMP    | NOT NULL           |
+
+### symptoms
+| Column          | Type         | Constraints        |
+|-----------------|--------------|--------------------|
+| id              | BIGINT       | PK, AUTO_INCREMENT |
+| query_id        | BIGINT       | FK -> query_history(id), NOT NULL |
+| symptom         | VARCHAR(200) | NOT NULL          |
+| duration        | VARCHAR(100) |                   |
+| intensity       | VARCHAR(50)  |                   |

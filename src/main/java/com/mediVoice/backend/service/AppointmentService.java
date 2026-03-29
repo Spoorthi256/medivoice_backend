@@ -32,7 +32,16 @@ public class AppointmentService {
     @Transactional
     public AppointmentResponse create(AppointmentRequest request) {
         Patient patient = patientRepository.findById(request.getPatientId()).orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
-        User doctor = userRepository.findById(request.getDoctorId()).orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
+
+        Long doctorId = request.getDoctorId();
+        if (patient.getAssignedDoctorId() != null) {
+            doctorId = patient.getAssignedDoctorId();
+        }
+        if (doctorId == null) {
+            throw new ResourceNotFoundException("No doctor assigned to patient");
+        }
+
+        User doctor = userRepository.findById(doctorId).orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
         Appointment a = new Appointment();
         a.setPatient(patient);
         a.setDoctor(doctor);

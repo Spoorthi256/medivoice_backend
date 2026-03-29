@@ -33,7 +33,8 @@ public class UserController {
                 request.getUsername(),
                 request.getEmail(),
                 request.getPassword(),
-                request.getRole()
+                request.getRole(),
+                request.getSpecialization()
         );
         User saved = userService.registerUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(toUserResponse(saved));
@@ -59,7 +60,8 @@ public class UserController {
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getRole()
+                user.getRole(),
+                user.getSpecialization()
         );
     }
 }

@@ -14,6 +14,9 @@ public class PatientResponse {
     private String gender;
     private String allergies;
     private String medicalHistory;
+    private Long assignedDoctorId;
+    private String assignedDoctorName;
+    private String assignedDoctorSpecialization;
     private String address;
     private Long createdById;
     private LocalDateTime createdAt;
@@ -51,6 +54,12 @@ public class PatientResponse {
     public void setAllergies(String allergies) { this.allergies = allergies; }
     public String getMedicalHistory() { return medicalHistory; }
     public void setMedicalHistory(String medicalHistory) { this.medicalHistory = medicalHistory; }
+    public Long getAssignedDoctorId() { return assignedDoctorId; }
+    public void setAssignedDoctorId(Long assignedDoctorId) { this.assignedDoctorId = assignedDoctorId; }
+    public String getAssignedDoctorName() { return assignedDoctorName; }
+    public void setAssignedDoctorName(String assignedDoctorName) { this.assignedDoctorName = assignedDoctorName; }
+    public String getAssignedDoctorSpecialization() { return assignedDoctorSpecialization; }
+    public void setAssignedDoctorSpecialization(String assignedDoctorSpecialization) { this.assignedDoctorSpecialization = assignedDoctorSpecialization; }
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
     public Long getCreatedById() { return createdById; }

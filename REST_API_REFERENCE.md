@@ -93,11 +93,27 @@ Protected endpoints require header: `Authorization: Bearer <token>`.
 
 ---
 
-## Dashboard
+## Symptom Analysis
 
-- **GET /api/dashboard** (authenticated)  
-  Returns role-based summary, e.g.  
-  - **admin**: totalPatients, totalAppointments, totalUsers  
+- **POST /api/symptom-analysis/analyze** – analyze symptoms  
+  Body: `{ "patientId?", "queryType": "symptom_analysis", "queryText", "responseText?", "severityLevel?" }`  
+  Returns: `QueryHistoryResponse`  
+  Roles: ADMIN, DOCTOR
+
+- **GET /api/symptom-analysis/history** – get user's query history  
+  Returns: `List<QueryHistoryResponse>`  
+  Roles: ADMIN, DOCTOR
+
+- **GET /api/symptom-analysis/patient/{patientId}/history** – get patient's query history  
+  Returns: `List<QueryHistoryResponse>`  
+  Roles: ADMIN, DOCTOR
+
+---
+
+## Health Tips
+
+- **GET /api/health-tips** – get general health tips  
+  Returns: `List<String>` (static tips for now)  
   - **doctor**: myAppointmentsToday, totalMyAppointments  
   - **receptionist**: appointmentsToday, totalPatients  
 

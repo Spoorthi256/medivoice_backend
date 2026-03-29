@@ -9,7 +9,6 @@ public class AppointmentRequest {
     @NotNull
     private Long patientId;
 
-    @NotNull
     private Long doctorId;
 
     @NotNull

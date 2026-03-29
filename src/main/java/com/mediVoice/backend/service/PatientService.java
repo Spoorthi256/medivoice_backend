@@ -29,6 +29,7 @@ public class PatientService {
         User createdBy = userRepository.findById(createdById).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Patient p = new Patient();
         mapRequestToEntity(request, p);
+        assignDoctorByHistory(p);
         p.setCreatedBy(createdBy);
         return toResponse(patientRepository.save(p));
     }
@@ -37,6 +38,7 @@ public class PatientService {
     public PatientResponse update(Long id, PatientRequest request) {
         Patient p = patientRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Patient not found: " + id));
         mapRequestToEntity(request, p);
+        assignDoctorByHistory(p);
         return toResponse(patientRepository.save(p));
     }
 
@@ -68,6 +70,41 @@ public class PatientService {
         p.setAddress(req.getAddress());
     }
 
+    private void assignDoctorByHistory(Patient p) {
+        String history = p.getMedicalHistory() == null ? "" : p.getMedicalHistory().toLowerCase();
+        String specialization;
+
+        if (history.contains("pregnancy")) {
+            specialization = "Gynecologist";
+        } else if (history.contains("asthma") || history.contains("breathing") || history.contains("shortness of breath")) {
+            specialization = "Pulmonologist";
+        } else if (history.contains("skin") || history.contains("rash") || history.contains("acne")) {
+            specialization = "Dermatologist";
+        } else if (history.contains("fever") || history.contains("general") || history.contains("cold") || history.contains("flu")) {
+            specialization = "General Physician";
+        } else {
+            specialization = "General Physician";
+        }
+
+        User assignedDoctor = userRepository.findByRoleAndSpecializationIgnoreCase("doctor", specialization)
+                .stream()
+                .findFirst()
+                .orElseGet(() -> userRepository.findAll().stream()
+                        .filter(u -> "doctor".equalsIgnoreCase(u.getRole()))
+                        .findFirst()
+                        .orElse(null));
+
+        if (assignedDoctor != null) {
+            p.setAssignedDoctorId(assignedDoctor.getId());
+            p.setAssignedDoctorName(assignedDoctor.getUsername());
+            p.setAssignedDoctorSpecialization(assignedDoctor.getSpecialization());
+        } else {
+            p.setAssignedDoctorId(null);
+            p.setAssignedDoctorName(null);
+            p.setAssignedDoctorSpecialization(null);
+        }
+    }
+
     private PatientResponse toResponse(Patient p) {
         PatientResponse r = new PatientResponse();
         r.setId(p.getId());
@@ -79,6 +116,9 @@ public class PatientService {
         r.setGender(p.getGender());
         r.setAllergies(p.getAllergies());
         r.setMedicalHistory(p.getMedicalHistory());
+        r.setAssignedDoctorId(p.getAssignedDoctorId());
+        r.setAssignedDoctorName(p.getAssignedDoctorName());
+        r.setAssignedDoctorSpecialization(p.getAssignedDoctorSpecialization());
         r.setAddress(p.getAddress());
         r.setCreatedAt(p.getCreatedAt());
         if (p.getCreatedBy() != null) r.setCreatedById(p.getCreatedBy().getId());

@@ -30,10 +30,11 @@ public class AuthController {
                 request.getUsername(),
                 request.getEmail(),
                 request.getPassword(),
-                request.getRole()
+                request.getRole(),
+                request.getSpecialization()
         );
         User saved = userService.registerUser(user);
-        UserResponse res = new UserResponse(saved.getId(), saved.getUsername(), saved.getEmail(), saved.getRole());
+        UserResponse res = new UserResponse(saved.getId(), saved.getUsername(), saved.getEmail(), saved.getRole(), saved.getSpecialization());
         return ResponseEntity.status(HttpStatus.CREATED).body(res);
     }
 
@@ -41,7 +42,7 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         User user = userService.loginUser(request.getEmail(), request.getPassword());
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole(), user.getId());
-        UserResponse userResponse = new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getRole());
+        UserResponse userResponse = new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getRole(), user.getSpecialization());
         return ResponseEntity.ok(new AuthResponse(token, userResponse));
     }
 }
