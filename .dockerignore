@@ -1,0 +1,10 @@
+target/
+.git/
+.gitignore
+.idea/
+.vscode/
+HELP.md
+DATABASE_SCHEMA.md
+REST_API_REFERENCE.md
+body.json
+*.log
